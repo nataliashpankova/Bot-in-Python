@@ -27,7 +27,7 @@ if env_ok:
 
     if not token_line:
         print("In .env non c'è BOT_TOKEN")
-        print("Aggiungi riga: BOT_TOKEN=8574898384:AAHfjaF3aMVTLUBvtQALJsexzkUElB_3Bas")
+        print("Aggiungi riga: BOT_TOKEN=")
     else:
         token_value = token_line.split("=", 1)[1].strip()
 
