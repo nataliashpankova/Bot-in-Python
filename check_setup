@@ -1,0 +1,59 @@
+import sys
+import os
+
+print("Controllo del sistema")
+
+# 1 Python
+ver = sys.version_info
+print(f"Python funziona: {ver.major}.{ver.minor}.{ver.micro}")
+
+# 2 .env + token
+env_ok = os.path.exists(".env")
+token = False
+
+if env_ok:
+    print("File .env è trovato")
+
+    with open(".env", "r", encoding="utf-8") as f:
+        lines = [line.strip() for line in f.readlines() if line.strip()]
+
+    token_line = ""
+    for line in lines:
+        if line.startswith("BOT_TOKEN="):
+            token_line = line
+            break
+
+    if not token_line:
+        print("In .env non c'è BOT_TOKEN")
+        print("Aggiungi riga: BOT_TOKEN=")
+    else:
+        token_value = token_line.split("=", 1)[1].strip()
+
+        # Semplice controllo: token contiene ":"
+        if not token_value:
+            print("Token è vuoto")
+            print("Inserire token da BotFather after BOT_TOKEN=")
+        elif ":" not in token_value:
+            print("Token è strano (di solito all'interno c'è :).")
+            print("Controlli che avete coppiato il token corretto.")
+        else:
+            token_ok = True
+            print("Token in .env sembra corretto")
+else:
+    print("File .env NON è TROVATO")
+    print("Creare file .env nella cartella del projetto e inserisci il token.")
+
+# 3 aiogram
+try:
+    import aiogram  # noqa: F401
+
+    print("Libreria aiogram: INSTALATA")
+except Exception:
+    print("Libreria aiogram: ANCORA NON è INSTALATA (è normale)")
+
+print("========================")
+
+if env_ok and token_ok:
+    print("Perfetto! Tutto è pronto per prossimo passo.")
+else:
+    print("Ci sono i problemi. Sistemali e fa il controllo di nuovo.")
