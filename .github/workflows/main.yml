@@ -1,0 +1,29 @@
+name: Esegui Bot Python
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/30 * * * *' # Esegue il bot ogni 30 minuti
+  workflow_dispatch: # Permette di lanciarlo manualmente
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v4
+      
+      - name: Imposta Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          
+      - name: Installa dipendenze
+        run: |
+          pip install -r requirements.txt
+          
+      - name: Esegui il Bot
+        env:
+          TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: python bot.py
