@@ -131,7 +131,7 @@ async def show_contacts(message: types.Message):
 
     # Formazione del testo di notifica
     alert_text = (
-        f"Qualcunoo ti sta cercando!\n"
+        f"Qualcuno ti sta cercando!\n"
         f"User: {user_name}\n"
         f"Login: @{user_login if user_login else 'non ce login'}"
     )
