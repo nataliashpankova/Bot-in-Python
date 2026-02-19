@@ -9,7 +9,6 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 from dotenv import load_dotenv
 
-
 # --- 1. IMPOSTAZIONI (Compila con i tuoi dati!) ---
 
 NAME = "<b>Natalia Shpankova</b>"
@@ -25,13 +24,15 @@ CONTACT_EMAIL = "nataliashpankova@gmail.com"
 CONTACT_LINKEDIN = "https://www.linkedin.com/in/nataliashpankova/"
 
 PHOTO_ID = (
-    ""
+    "AgACAgIAAxkBAAOLaZQgEJNuQFqg3t-Qb9tNSAFTTQEAAhkWaxt6XqFI8yyLmPY196YBAAMCAAN5AAM6BA"
 )
+
+# --- ---
 
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 if not TOKEN:
-    raise ValueError("BOT_TOKEN non è stato trovato! Controla il file .env")
+    raise ValueError("BOT_TOKEN non è stato trovato! COntrola il file .env")
 
 ADMIN_ID = os.getenv("ADMIN_ID")
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -44,10 +45,10 @@ def main_menu() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="About"), KeyboardButton(text="Projects")],
             [KeyboardButton(text="Contacts"), KeyboardButton(text="Photo")],
-            [KeyboardButton(text="Hide menu")]
+            [KeyboardButton(text="Hide menu")],
         ],
         resize_keyboard=True,
-        input_field_placeholder="Scegle un pulsante nel menu..."
+        input_field_placeholder="Scegle un pulsante nel menu...",
     )
 
 #
@@ -95,9 +96,8 @@ def text_projects() -> str:
 def text_contacts() -> str:
     return (
         "Contattami\n\n"
-        f"Telegram: scrivimi un messagio\n"
-        f"Email: {CONTACT_EMAIL}"
-        + get_footer()
+        f"LinkedIn: <a href='{CONTACT_LINKEDIN}'>Natalia Shpankova</a>\n"
+        f"Email: {CONTACT_EMAIL}" + get_footer()
     )
 
 # --- 4. OPERATORI ---
@@ -107,12 +107,10 @@ def text_contacts() -> str:
 async def cmd_start(message: types.Message):
     await message.answer(text_home(), reply_markup=main_menu())
 
-
 @dp.message(F.text == "About me")
 @dp.message(Command("about"))
 async def show_about(message: types.Message):
     await message.answer(text_about(), reply_markup=nav_menu())
-
 
 @dp.message(F.text == "Projects")
 @dp.message(Command("projects"))
@@ -125,13 +123,13 @@ async def show_contacts(message: types.Message):
     # Invia una risposta all'utente (come prima)
     await message.answer(text_contacts(), reply_markup=nav_menu())
 
-    # Inviamo una notifica all'ADMIN (tu)
+    # MAGIA: Inviamo una notifica all'ADMIN (tu)
     user_name = message.from_user.full_name
     user_login = message.from_user.username
 
     # Formazione del testo di notifica
     alert_text = (
-        f"Qualcuno ti sta cercando!\n"
+        f"Qualcunoo ti sta cercando!\n"
         f"User: {user_name}\n"
         f"Login: @{user_login if user_login else 'non ce login'}"
     )
@@ -159,7 +157,6 @@ async def btn_hide(message: types.Message):
         "Menu è nascosto. Scrivi /start", reply_markup=ReplyKeyboardRemove()
     )
 
-
 # --- 5. RESPONSABILI TECNICI ---
 
 # Scatta una fototessera
@@ -174,7 +171,6 @@ async def fallback_handler(message: types.Message):
         "Non capisco ancora questi messaggi\n" "Per favore usa i pulsanti del menu.",
         reply_mark=nav_menu(),
     )
-
 
 # --- 6. INIZIO ---
 
