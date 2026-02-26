@@ -76,7 +76,7 @@ def get_footer() -> str:
 @dp.message(F.text == "Al menu principale")
 async def cmd_start(message: types.Message):
     welcome_text = (
-        "👋 Buongiorno!\n"
+        "Buongiorno!\n"
         f"{TUTOR_NAME} — {SUBJECT}.\n\n"
         "Seleziona una sezione dal menu sottostante."
     )
@@ -147,5 +147,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("Bot interrotto")
 
-
-print("Бот остановлен")
